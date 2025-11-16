@@ -1,1 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feri Bajar - Your Local Online Shop</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #28a745; /* Green */
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .cart-icon {
+            font-size: 1.2em;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+
+        /* Main Content */
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .price {
+            color: var(--secondary-color);
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--dark-text);
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Cart Modal (Simple overlay for demonstration) */
+        .cart-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Feri Bajar</div>
+        <div class="cart-icon" onclick="openCartModal()">
+            🛒 <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Welcome to Feri Bajar - Fresh Finds Daily!</h1>
+        
+        <div class="product-grid">
+
+            <div class="product-card" data-name="Organic Apple" data-price="2.99">
+                <img src="https://via.placeholder.com/300x200?text=Apple" alt="Organic Apple">
+                <h3>Organic Apple (1 Kg)</h3>
+                <p class="price">$2.99</p>
+                <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-name="Fresh Banana" data-price="1.50">
+                <img src="https://via.placeholder.com/300x200?text=Banana" alt="Fresh Banana">
+                <h3>Fresh Banana (1 Dozen)</h3>
+                <p class="price">$1.50</p>
+                <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-name="Artisanal Bread" data-price="4.75">
+                <img src="https://via.placeholder.com/300x200?text=Bread" alt="Artisanal Bread">
+                <h3>Artisanal Sourdough Bread</h3>
+                <p class="price">$4.75</p>
+                <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-name="Local Honey" data-price="8.99">
+                <img src="https://via.placeholder.com/300x200?text=Honey" alt="Local Honey">
+                <h3>Local Wildflower Honey</h3>
+                <p class="price">$8.99</p>
+                <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+            </div>
+            
+            </div>
+    </div>
+    
+    <div id="cartModal" class="cart-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCartModal()">&times;</span>
+            <h2>🛒 Your Cart</h2>
+            <div id="cart-items">
+                <p>Your cart is empty.</p>
+            </div>
+            <p><strong>Total: </strong><span id="cart-total">$0.00</span></p>
+            <button class="add-to-cart" style="background-color: var(--secondary-color);">Proceed to Checkout (Demo)</button>
+            <small><p>Note: This is a front-end demo. Real payments are not processed.</p></small>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Feri Bajar. All rights reserved. | Simple E-commerce Demo
+    </footer>
+
+    <script>
+        let cart = [];
+        const cartCountElement = document.getElementById('cart-count');
+        const cartItemsElement = document.getElementById('cart-items');
+        const cartTotalElement = document.getElementById('cart-total');
+        const cartModal = document.getElementById('cartModal');
+
+        // Function to open the cart modal
+        function openCartModal() {
+            renderCart();
+            cartModal.style.display = 'block';
+        }
+
+        // Function to close the cart modal
+        function closeCartModal() {
+            cartModal.style.display = 'none';
+        }
+        
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == cartModal) {
+                closeCartModal();
+            }
+        }
+
+        // Function to add a product to the cart
+        function addToCart(button) {
+            const productCard = button.closest('.product-card');
+            const name = productCard.dataset.name;
+            const price = parseFloat(productCard.dataset.price);
+
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            updateCartDisplay();
+            alert(`${name} added to cart!`);
+        }
+
+        // Function to update the cart count and calculate total
+        function updateCartDisplay() {
+            let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = totalCount;
+        }
+
+        // Function to render the cart items in the modal
+        function renderCart() {
+            cartItemsElement.innerHTML = '';
+            let grandTotal = 0;
+
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p>Your cart is empty.</p>';
+                cartTotalElement.textContent = `$0.00`;
+                return;
+            }
+
+            const ul = document.createElement('ul');
+            ul.style.listStyleType = 'none';
+            ul.style.paddingLeft = '0';
+
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                const itemTotal = item.price * item.quantity;
+                grandTotal += itemTotal;
+                
+                li.innerHTML = `
+                    ${item.name} (x${item.quantity}) 
+                    - **$${item.price.toFixed(2)}** each 
+                    = **$${itemTotal.toFixed(2)}**
+                `;
+                ul.appendChild(li);
+            });
+
+            cartItemsElement.appendChild(ul);
+            cartTotalElement.textContent = `$${grandTotal.toFixed(2)}`;
+        }
+
+        // Initial update
+        updateCartDisplay();
+    </script>
+</body>
+</html>
